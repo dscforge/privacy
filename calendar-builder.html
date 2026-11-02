@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendar Builder — Privacy Policy</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, "SF Pro Text", Helvetica Neue, Arial, sans-serif;
+         max-width: 42rem; margin: 0 auto; padding: 2rem 1.25rem 4rem;
+         line-height: 1.6; color: #1d1d1f; background: #fff; }
+  h1 { font-size: 1.6rem; margin-bottom: 0.2rem; }
+  h2 { font-size: 1.1rem; margin-top: 2rem; border-bottom: 1px solid #e5e5ea; padding-bottom: 0.3rem; }
+  .meta { color: #6e6e73; font-size: 0.85rem; margin-top: 0; }
+  ul { padding-left: 1.2rem; }
+  li { margin: 0.35rem 0; }
+  .verdict { background: #f2f8f4; border-left: 3px solid #34a759;
+             padding: 0.8rem 1rem; margin: 1.25rem 0; border-radius: 0 6px 6px 0; }
+  .verdict strong { color: #1a7d3e; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1rem 0; }
+  th, td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid #ececf0; vertical-align: top; }
+  th { color: #6e6e73; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #e5e5ea;
+           color: #6e6e73; font-size: 0.85rem; }
+  code { background: #f4f4f6; padding: 0.1rem 0.3rem; border-radius: 4px; font-size: 0.88em; }
+</style>
+</head>
+<body>
+
+<h1>Privacy Policy</h1>
+<p class="meta">
+  <strong>Calendar Builder</strong> · Effective 2 November 2026<br>
+  Published by DSC Forge LLC
+</p>
+
+<div class="verdict">
+  <strong>The short version:</strong> Calendar Builder has no network code at all. It never
+  contacts a server, so it cannot collect, upload, sell, or share your data. Everything you
+  enter stays inside the app's own private storage on your device, and it leaves your device
+  only if you explicitly export it yourself.
+</div>
+
+<h2>What the app handles</h2>
+<p>
+  Calendar Builder is a utility that renders a printable calendar from events you give it.
+  The data it touches is data <em>you</em> put into it:
+</p>
+<ul>
+  <li>Event titles, dates, and categories you type in.</li>
+  <li>Calendar text you paste in or import yourself (<code>.ics</code> and raw CSV).</li>
+  <li>Your appearance choices — palette and layout options.</li>
+</ul>
+
+<h2>Where that data lives</h2>
+<ul>
+  <li>In the app's own sandboxed storage on your device. iOS isolates this from every other app.</li>
+  <li>It is <strong>not</strong> sent anywhere. There is no backend, no account system, and no
+      analytics or crash-reporting SDK compiled into the app.</li>
+  <li>Deleting the app deletes the data with it.</li>
+</ul>
+
+<h2>Export is something you do, deliberately</h2>
+<p>
+  When you choose <em>Export</em>, the app writes a PDF or PNG and hands it to the iOS share
+  sheet or print system. From that moment the destination is your choice. The app itself
+  transmits nothing and learns nothing about where your export went.
+</p>
+
+<h2>What the app does <em>not</em> do</h2>
+<p>
+  These are not policy promises — they are statements about the compiled program, verifiable
+  by inspecting the shipped binary:
+</p>
+<table>
+  <tr><th>Capability</th><th>Present?</th></tr>
+  <tr><td>Any network request at all</td><td>No — no networking framework is linked</td></tr>
+  <tr><td>Analytics or usage tracking</td><td>No</td></tr>
+  <tr><td>Advertising or an advertising identifier</td><td>No</td></tr>
+  <tr><td>Third-party SDKs of any kind</td><td>No</td></tr>
+  <tr><td>Access to your system Calendar</td><td>No — it reads pasted/imported text, never your real calendar</td></tr>
+  <tr><td>Contacts, Photos, Location, Health, Microphone</td><td>No — none of these frameworks are linked</td></tr>
+  <tr><td>Encryption of any kind</td><td>No — no cryptographic code is present</td></tr>
+  <tr><td>Push notifications</td><td>No</td></tr>
+  <tr><td>Tracking (per App Tracking Transparency)</td><td>No — it tracks nothing across apps or sites</td></tr>
+</table>
+
+<h2>Children</h2>
+<p>
+  The app is a general-purpose calendar utility with no account system and no data collection,
+  so it is suitable for all ages. It knowingly collects nothing about anyone, including children.
+</p>
+
+<h2>Changes to this policy</h2>
+<p>
+  If a future version adds networking, analytics, or any form of collection, this page will be
+  updated and its effective date changed <em>before</em> that version ships. The version of this
+  policy that applies to you is the one published when you installed the version you are running.
+</p>
+
+<h2>Contact</h2>
+<p>
+  Questions about this policy: <strong>DSC Forge LLC</strong> —
+  <a href="mailto:hello@dscforge.com">hello@dscforge.com</a>
+</p>
+
+<footer>
+  This policy describes the app's behaviour as built. It is written to match the App Store
+  privacy label <strong>"Data Not Collected"</strong>, which is the label the developer attests
+  to in App Store Connect.
+</footer>
+
+</body>
+</html>
