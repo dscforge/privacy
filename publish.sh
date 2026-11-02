@@ -68,9 +68,13 @@ CODE=$(curl -s -o /tmp/publish-repo.json -w '%{http_code}' \
   -d "{\"name\":\"$REPO\",\"description\":\"DSC Forge privacy policies\",\"homepage\":\"https://$OWNER.github.io/$REPO/\",\"has_issues\":false,\"has_wiki\":false,\"auto_init\":false,\"private\":false}" \
   https://api.github.com/user/repos)
 
+# ⚠ Do NOT treat a bare HTTP 422 as "already exists". GitHub returns 422 for BOTH
+# "name already exists" AND a malformed request body, so trusting the status code alone
+# would silently swallow a real bug and then fail later with a confusing push error.
+# Disambiguate on the error MESSAGE instead.
 if [[ "$CODE" == 201 ]]; then
   say 'created repository'
-elif [[ "$CODE" == 422 ]]; then
+elif [[ "$CODE" == 422 ]] && grep -q 'already exists' /tmp/publish-repo.json 2>/dev/null; then
   say 'repository already exists — continuing'
 else
   say "repo create returned HTTP $CODE:"
@@ -80,12 +84,22 @@ else
 fi
 
 say 'pushing'
-# Push with the credentialed URL, then immediately rewrite the remote back to a
-# clean URL so the token is not persisted in .git/config.
-git push --quiet --set-upstream "$REMOTE" "$BRANCH" 2>&1 | sed 's/^/      /'
+# Push to the credentialed URL EXPLICITLY rather than via --set-upstream: git will not
+# record an upstream when the push target is a URL rather than a remote name, so the
+# upstream is wired up separately after the clean remote exists.
+git push --quiet "$REMOTE" "HEAD:refs/heads/$BRANCH" 2>&1 | sed 's/^/      /'
 git remote remove origin >/dev/null 2>&1 || true
 git remote add origin "https://github.com/$OWNER/$REPO.git"
+git fetch --quiet origin
+git branch --set-upstream-to=origin/$BRANCH
 say 'remote rewritten to a token-free URL'
+
+# Prove the token did not leak into the repo config. Grep for the token's own value,
+# not for the word "token" — the word appears in benign comments.
+if grep -F -q -- "$TOKEN" .git/config 2>/dev/null; then
+  print -u2 'TOKEN LEAKED INTO .git/config — scrubbing'
+  git remote set-url origin "https://github.com/$OWNER/$REPO.git"
+fi
 
 # Pages needs one POST to enable it; pushing files alone does not turn it on.
 say 'enabling Pages (GitHub Actions style)'
@@ -94,7 +108,7 @@ PCODE=$(curl -s -o /tmp/publish-pages.json -w '%{http_code}' \
   -H "Authorization: Bearer $TOKEN" \
   -H 'Accept: application/vnd.github+json; acceptable-version=2022-11-28' \
   -H 'Content-Type: application/json' \
-  -d '{"build_type":"legacy","source":{"branch":"main","path":"/"}}' \
+  -d "{\"build_type\":\"legacy\",\"source\":{\"branch\":\"$BRANCH\",\"path\":\"/\"}}" \
   "https://api.github.com/repos/$OWNER/$REPO/pages")
 if [[ "$PCODE" == 201 || "$PCODE" == 202 || "$PCODE" == 409 ]]; then
   say "pages enable returned HTTP $PCODE (201/202 created, 409 = already enabled)"
