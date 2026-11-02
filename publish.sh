@@ -58,27 +58,43 @@ if [[ -n "$(git status --porcelain)" ]]; then
       commit -q -m 'Update privacy policies'
 fi
 
-# Create the repo through the API rather than requiring the `gh` CLI, which is
-# not installed here.
-say 'ensuring the repository exists'
-CODE=$(curl -s -o /tmp/publish-repo.json -w '%{http_code}' \
+# Check existence FIRST, with a plain GET, and only POST when it is genuinely absent.
+# A deliberately least-privilege token (Contents + Pages + Metadata, scoped to one repo)
+# has NO "Repository creation" permission, so POST /user/repos returns
+# 403 "Resource not accessible by personal access token" EVEN WHEN THE REPO ALREADY
+# EXISTS. Treating that as fatal aborts a run that was about to succeed. The existence
+# check is unambiguous: a public repo answers 200 to anyone.
+say 'checking whether the repository exists'
+EXISTS=$(curl -s -o /dev/null -w '%{http_code}' \
   -H "Authorization: Bearer $TOKEN" \
   -H 'Accept: application/vnd.github+json; acceptable-version=2022-11-28' \
-  -H 'Content-Type: application/json' \
-  -d "{\"name\":\"$REPO\",\"description\":\"DSC Forge privacy policies\",\"homepage\":\"https://$OWNER.github.io/$REPO/\",\"has_issues\":false,\"has_wiki\":false,\"auto_init\":false,\"private\":false}" \
-  https://api.github.com/user/repos)
+  "https://api.github.com/repos/$OWNER/$REPO")
 
-# ⚠ Do NOT treat a bare HTTP 422 as "already exists". GitHub returns 422 for BOTH
-# "name already exists" AND a malformed request body, so trusting the status code alone
-# would silently swallow a real bug and then fail later with a confusing push error.
-# Disambiguate on the error MESSAGE instead.
-if [[ "$CODE" == 201 ]]; then
-  say 'created repository'
-elif [[ "$CODE" == 422 ]] && grep -q 'already exists' /tmp/publish-repo.json 2>/dev/null; then
-  say 'repository already exists — continuing'
+if [[ "$EXISTS" == 200 ]]; then
+  say 'repository already exists — skipping creation'
+elif [[ "$EXISTS" == 404 ]]; then
+  say 'not found — creating it'
+  CODE=$(curl -s -o /tmp/publish-repo.json -w '%{http_code}' \
+    -H "Authorization: Bearer $TOKEN" \
+    -H 'Accept: application/vnd.github+json; acceptable-version=2022-11-28' \
+    -H 'Content-Type: application/json' \
+    -d "{\"name\":\"$REPO\",\"description\":\"DSC Forge privacy policies\",\"homepage\":\"https://$OWNER.github.io/$REPO/\",\"has_issues\":false,\"has_wiki\":false,\"auto_init\":false,\"private\":false}" \
+    https://api.github.com/user/repos)
+  # ⚠ Do NOT treat a bare HTTP 422 as "already exists": GitHub returns 422 for BOTH
+  # "name already exists" AND a malformed body, so trusting the code alone would swallow
+  # a real bug and fail later with a confusing push error. Disambiguate on the MESSAGE.
+  if [[ "$CODE" == 201 ]]; then
+    say 'created repository'
+  elif [[ "$CODE" == 422 ]] && grep -q 'already exists' /tmp/publish-repo.json 2>/dev/null; then
+    say 'repository already exists (raced) — continuing'
+  else
+    say "repo create returned HTTP $CODE:"
+    sed 's/^/      /' /tmp/publish-repo.json
+    print -u2 'aborting before push'
+    exit 1
+  fi
 else
-  say "repo create returned HTTP $CODE:"
-  sed 's/^/      /' /tmp/publish-repo.json
+  say "unexpected HTTP $EXISTS probing the repository"
   print -u2 'aborting before push'
   exit 1
 fi
