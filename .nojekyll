@@ -1,0 +1,6 @@
+# Disables Jekyll processing on GitHub Pages.
+#
+# Without this, Pages runs the site through Jekyll. Plain HTML usually survives it,
+# but Jekyll silently ignores any file beginning with an underscore and can alter
+# front-matter-looking content. A privacy policy URL must never 404 or render oddly,
+# so processing is disabled outright.
