@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSC Forge — Support</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    margin: 0 auto;
+    padding: 3rem 1.25rem 4rem;
+    max-width: 42rem;
+    font: 16px/1.65 -apple-system, system-ui, "Segoe UI", sans-serif;
+    color: #1c1c1e;
+    background: #fff;
+  }
+  h1 { font-size: 1.6rem; margin: 0 0 .35rem; letter-spacing: -.01em; }
+  p.lede { color: #6e6e73; margin: 0 0 2.25rem; }
+  h2 { font-size: 1.05rem; margin: 2.1rem 0 .5rem; }
+  a { color: #0a6ec4; }
+  .contact {
+    border: 1px solid #e3e3e8;
+    border-radius: 12px;
+    padding: 1.15rem 1.25rem;
+    margin: 0 0 1.5rem;
+  }
+  .contact .mail { font-size: 1.15rem; font-weight: 600; }
+  .contact p { margin: .55rem 0 0; color: #6e6e73; font-size: .92rem; }
+  ul { padding-left: 1.2rem; }
+  li { margin-bottom: .4rem; }
+  code {
+    font: .9em ui-monospace, Menlo, monospace;
+    background: #f2f2f5;
+    padding: .1em .35em;
+    border-radius: 4px;
+  }
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e3e3e8;
+    color: #6e6e73;
+    font-size: .85rem;
+  }
+  footer a { color: inherit; }
+  @media (prefers-color-scheme: dark) {
+    body { color: #ebebf0; background: #111114; }
+    p.lede, .contact p, footer { color: #9a9aa4; }
+    a { color: #6ab4f5; }
+    .contact { border-color: #2c2c33; }
+    code { background: #1e1e23; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Support</h1>
+<p class="lede">
+  Support for apps published by DSC Forge LLC.
+</p>
+
+<div class="contact">
+  <a class="mail" href="mailto:hello@dscforge.com">hello@dscforge.com</a>
+  <p>
+    Email is the only support channel, and it is a real inbox read by a person.
+    We aim to reply within two business days.
+  </p>
+</div>
+
+<h2>Before you email</h2>
+<p>
+  Most issues are resolved by one of these. Please try them first &mdash; it gets
+  you an answer faster than waiting on a reply.
+</p>
+<ul>
+  <li>
+    <strong>Re-import your data.</strong> The app keeps everything in its own on-device
+    store. If a month looks wrong, re-importing the original source is the fastest reset.
+  </li>
+  <li>
+    <strong>Check the column header.</strong> Pasted CSV is expected to start with
+    <code>Subject,Start Date,End Date,Category</code>. A different header order is the usual
+    cause of events landing on the wrong day.
+  </li>
+  <li>
+    <strong>Check the week start.</strong> Settings has a Sunday/Monday control. If the grid
+    looks shifted by one column, that setting is almost always the reason.
+  </li>
+  <li>
+    <strong>Export as PDF rather than PNG</strong> if you need selectable text or a smaller file.
+    PNG is the choice when you want an image to drop straight into a slide.
+  </li>
+</ul>
+
+<h2>Helping us reproduce a bug</h2>
+<p>If something is broken, these four details are what we actually need:</p>
+<ul>
+  <li>Which device and iOS version.</li>
+  <li>The exact steps from launch to the problem.</li>
+  <li>What you expected, versus what happened.</li>
+  <li>A screenshot, and if it involves an import, a two-row sample of the input.</li>
+</ul>
+
+<h2>On privacy, briefly</h2>
+<p>
+  The apps collect nothing and contain no networking code, so there is no account to reset,
+  no server log to search, and no data for us to look up on your behalf. That is also why
+  support is email rather than an in-app chat: there is no connection for a chat to travel over.
+  Full detail is in the
+  <a href="calendar-builder.html">privacy policy</a>.
+</p>
+
+<footer>
+  DSC Forge LLC &middot; <a href="index.html">All policies</a> &middot;
+  <a href="mailto:hello@dscforge.com">hello@dscforge.com</a>
+</footer>
+
+</body>
+</html>
