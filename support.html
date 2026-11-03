@@ -73,21 +73,25 @@
 </p>
 <ul>
   <li>
-    <strong>Re-import your data.</strong> The app keeps everything in its own on-device
-    store. If a month looks wrong, re-importing the original source is the fastest reset.
-  </li>
-  <li>
     <strong>Check the column header.</strong> Pasted CSV is expected to start with
     <code>Subject,Start Date,End Date,Category</code>. A different header order is the usual
-    cause of events landing on the wrong day.
+    cause of events landing on the wrong day or being skipped.
   </li>
   <li>
-    <strong>Check the week start.</strong> Settings has a Sunday/Monday control. If the grid
-    looks shifted by one column, that setting is almost always the reason.
+    <strong>Importing replaces the list, it does not add to it.</strong> Importing a file
+    takes the place of what was there. A file that has no events, or whose rows do not parse,
+    is rejected before anything is written, so a bad file will not wipe a good list.
   </li>
   <li>
-    <strong>Export as PDF rather than PNG</strong> if you need selectable text or a smaller file.
-    PNG is the choice when you want an image to drop straight into a slide.
+    <strong>The grid always starts the week on Sunday.</strong> This is fixed and is not a
+    setting, so a grid that looks shifted by one column is behaving as designed rather than
+    being misconfigured. Settings covers colour palette and light or dark appearance only.
+  </li>
+  <li>
+    <strong>Choose your export format deliberately.</strong> <em>PDF &mdash; Full</em> puts one
+    month per page, <em>PDF &mdash; Condensed</em> packs the range into a compact multi-month
+    sheet, and <strong>PNG</strong> is a single image, which is the one to drop straight into a
+    slide.
   </li>
 </ul>
 
@@ -98,6 +102,8 @@
   <li>The exact steps from launch to the problem.</li>
   <li>What you expected, versus what happened.</li>
   <li>A screenshot, and if it involves an import, a two-row sample of the input.</li>
+  <li>Whether you imported CSV or an <code>.ics</code> file &mdash; the two paths are parsed
+  differently.</li>
 </ul>
 
 <h2>On privacy, briefly</h2>
